@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import os
 import sys
 import mysql.connector
@@ -10,7 +10,7 @@ def twos_comp(val, bits):
         val = val - (1 << bits)
     return val
 
-cmd = "i2cget -y 1 0x4d 0 b" #command for getting data from sensor
+cmd = "/usr/sbin/i2cget -y 1 0x4d 0 b" #command for getting data from sensor
 
 x = os.popen(cmd) #run command and save output to x
 
