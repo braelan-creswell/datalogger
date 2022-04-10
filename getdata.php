@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 $servername = "localhost";
 $username = "datalog";
 $password = "diViqIgan1G3";
