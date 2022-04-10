@@ -1,0 +1,82 @@
+<html>
+<title>Braelan's Temperature</title>
+<head>
+<style>
+html, body {
+  margin:0px;
+  height:100%;
+}
+</style>
+<script src="node_modules/chart.js/dist/chart.js"></script>
+</head>
+<body onload="updateChart()">
+<div class="chart-container" style="position: relative; margin: auto; height:100%; width: 80%;">
+<canvas id="myChart"></canvas>
+<p></p>
+<button onclick="updateChart()">Update Now</button>
+</div>
+<script>
+function updateChart() {
+    async function fetchData() {
+        const response = await fetch("getdata.php");
+        const datapoints = await response.json();
+        console.log(datapoints);
+        return datapoints;
+        }
+        
+    fetchData().then(datapoints => {
+        const time = datapoints.map(
+          function(index){
+            return index.timestamp;
+          });
+        const cputemp = datapoints.map(
+          function(index){
+            return index.cputemp;
+          });
+        const roomtemp = datapoints.map(
+          function(index){
+            return index.roomtemp;
+          });
+        
+        
+        console.log(time);
+        
+        myChart.config.data.labels = time;
+        myChart.config.data.datasets[0].data = roomtemp;
+        myChart.config.data.datasets[1].data = cputemp;
+        myChart.update();
+    });
+}
+
+const ctx = document.getElementById('myChart');
+const myChart = new Chart(ctx, {
+   type: 'line',
+   data: {
+    labels: [],
+    datasets: [{ 
+        data: [],
+        label: "Room Temp",
+        borderColor: "#3e95cd",
+        fill: false
+      }, { 
+        data: [],
+        label: "CPU Temp",
+        borderColor: "#8e5ea2",
+        fill: false
+      } 
+    ]
+  },
+  options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+</script>
+</body>
+</html>
