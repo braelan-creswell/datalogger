@@ -18,12 +18,12 @@ $data = $conn->query($query);
 //loop through the returned data
 $cputemp = array();
 foreach ($data as $row) {
-  $cputemp[] = $row;
+  $cputemp[] = $row; //send row data to array
 }
 
-$data->close();
-$conn->close();
+$data->close(); //free query memory
+$conn->close(); //disconnect from MySQL
 
-print json_encode($cputemp);
+print json_encode($cputemp); //return data as a json file.
 ?>
 

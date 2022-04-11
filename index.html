@@ -19,41 +19,41 @@ html, body {
 </div>
 <script>
 function updateChart() {
-    async function fetchData() {
-        const response = await fetch("getdata.php");
-        const datapoints = await response.json();
+    async function fetchData() { //asyncronous function to get data
+        const response = await fetch("getdata.php"); //send request to php script
+        const datapoints = await response.json(); //parse json response into variable
         console.log(datapoints);
         return datapoints;
         }
         
-    fetchData().then(datapoints => {
+    fetchData().then(datapoints => { //process data into seperate variables
         const time = datapoints.map(
           function(index){
-            return index.timestamp;
+            return index.timestamp; //timestamp
           });
         const cputemp = datapoints.map(
           function(index){
-            return index.cputemp;
+            return index.cputemp;  //cpu temperature
           });
         const roomtemp = datapoints.map(
           function(index){
-            return index.roomtemp;
+            return index.roomtemp; //room temperature
           });
         
         
         console.log(time);
         
-        myChart.config.data.labels = time;
-        myChart.config.data.datasets[0].data = roomtemp;
-        myChart.config.data.datasets[1].data = cputemp;
+        myChart.config.data.labels = time; //update chart labels
+        myChart.config.data.datasets[0].data = roomtemp; //update room temp data
+        myChart.config.data.datasets[1].data = cputemp; //update cpu temp data
         myChart.update();
     });
 }
 
-const ctx = document.getElementById('myChart');
+const ctx = document.getElementById('myChart'); //new chart
 const myChart = new Chart(ctx, {
-   type: 'line',
-   data: {
+   type: 'line', //line chart
+   data: { //initialize chart with empty data, full out labels and enable zoom + pan
     labels: [],
     datasets: [{ 
         data: [],
@@ -69,13 +69,13 @@ const myChart = new Chart(ctx, {
     ]
   },
   options: {
-        responsive: true,
+        responsive: true, //resize when dragged around
         scales: {
             y: {
                 beginAtZero: true
             }
         },
-        plugins: {
+        plugins: { //zoom and pan plugins
               zoom: {
                 pan: {
                     enabled: true,
